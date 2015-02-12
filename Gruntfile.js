@@ -362,11 +362,6 @@ module.exports = function (grunt) {
               }
               return path.join(dest, src);
           }
-        }, {
-          expand: true,
-          dest: '<%= yeoman.dist %>/mod',
-          cwd: 'mod',
-          src: '*'
         }]
       },
       styles: {
