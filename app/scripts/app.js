@@ -26,17 +26,14 @@
                 }
             };
         })
-        .config(function ($routeProvider) {
+        .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/', {
-                    templateUrl: 'views/main.html',
+                    templateUrl: 'views/list.html',
                     controller: 'ShoppingListController'
                 })
-        })
+        }])
         .constant('MAX_LENGTH', 50)
-        .constant('MIN_LENGTH', 2)
-        .factory('Contact', function ($resource) {
-            return $resource('/api/shoppinglist/:name', { name: '@name.clean' });
-        });
+        .constant('MIN_LENGTH', 2);
 
 }());
