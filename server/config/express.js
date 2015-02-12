@@ -16,7 +16,6 @@ module.exports = function(app, config) {
     app.set('view engine', 'jade');
 
     app.use(morgan('dev'));
-    //app.use(morgan('short'));
     app.use(cookieParser());
     app.use(bodyParser());
 

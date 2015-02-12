@@ -3,7 +3,7 @@ var Shoppinglist = require('../models/Shoppinglist');
 exports.getList = function(req, res) {
     Shoppinglist.find(function(err, collection) {
         res.send(collection);
-    })
+    });
 };
 
 exports.insertList = function(req, res) {
@@ -31,10 +31,10 @@ exports.updateList = function(req, res) {
 exports.removeList = function(req, res) {
     var userData = req.body;
 
-    Shoppinglist.remove(userData, function(err){
+    Shoppinglist.remove(userData, function(err, collection){
         if(err){
-            res.send({message: err});
+            res.send({error: err});
         }
-        res.send({message: 'ok'});
+        res.send(collection);
     });
 };

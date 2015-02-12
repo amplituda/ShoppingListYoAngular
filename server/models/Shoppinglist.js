@@ -1,8 +1,8 @@
 (function () {
 
     var sqlite3 = require('sqlite3').verbose(),
-        db = new sqlite3.Database('shopping-list'),
-        check;
+        //db = new sqlite3.Database('shopping-list');
+        db = new sqlite3.Database('test-list');
 
     function find(fn) {
 
@@ -61,7 +61,8 @@
             }
 
             find(function (err, collection) {
-                callback(null, {'message': 'Removed ' + this.changes + 'itmes'});
+                callback(err, collection);
+                //callback(null, {'message': 'Removed ' + this.changes + ' itmes'});
             });
         });
     }
