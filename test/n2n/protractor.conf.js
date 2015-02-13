@@ -1,3 +1,12 @@
+var HtmlReporter = require('protractor-html-screenshot-reporter');
+
+var reporter=new HtmlReporter({
+    baseDirectory: './protractor-result', // a location to store screen shots.
+    docTitle: 'Protractor Demo Reporter',
+    docName:    'protractor-demo-tests-report.html'
+});
+
+
 exports.config = {
   allScriptsTimeout: 99999,
 
@@ -20,6 +29,10 @@ exports.config = {
   // Spec patterns are relative to the location of the
   // spec file. They may include glob patterns.
   specs: ['*Spec*.js'],
+
+  onPrepare: function() {
+    jasmine.getEnv().addReporter(reporter);
+  },
 
   // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {

@@ -409,9 +409,19 @@ module.exports = function (grunt) {
               }
           }
       }
+    },
+
+    shell: {
+      options: {
+          stdout: true
+      },
+      protractor_install: {
+          command: 'node ./node_modules/protractor/bin/webdriver-manager update'
+      },
+      npm_install: {
+          command: 'npm install'
+      }
     }
-
-
   });
 
 
@@ -468,6 +478,8 @@ module.exports = function (grunt) {
   ]);
 
 
-    grunt.registerTask('prot', ['protractor:singlerun']);
+  grunt.registerTask('prot', ['protractor:singlerun']);
+
+  grunt.registerTask('install', ['shell:npm_install', 'shell:protractor_install']);
 
 };

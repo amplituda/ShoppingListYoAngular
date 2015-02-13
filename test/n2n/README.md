@@ -116,3 +116,85 @@ We need to add the protractor task in Gruntfile.
 
 grunt.registerTask('prot', ['protractor:singlerun']);
 
+#Adding the setup command tasks
+
+npm install grunt-shell-spawn --save-dev
+
+Now, we will add the shell-spawn task to Gruntfile.
+
+
+shell: {
+    options: {
+        stdout: true
+    },
+    protractor_install: {
+        command: 'node ./node_modules/protractor/bin/webdriver-manager update'
+    },
+    npm_install: {
+        command: 'npm install'
+    }
+}
+
+
+grunt.registerTask('install', ['shell:npm_install', 'shell:protractor_install']);
+
+
+#Adding the HTML Reporter
+We need to add this reporter in the Protractor configuration file.
+
+npm install protractor-html-screenshot-reporter --save-dev
+
+1. require the protractor-html-screenshot-reporter module and assign to a variable.
+
+var HtmlReporter = require('protractor-html-screenshot-reporter');
+
+
+2. add this reporter on the onPrepare function.
+
+onPrepare: function() {
+      // Add a reporter and store screenshots to `screnshots`:
+      jasmine.getEnv().addReporter(new HtmlReporter({
+         baseDirectory: 'screenshots'
+      }));
+   },
+
+
+
+So, now you have an html reporter ready. But, there is one issue though. Whenever you run the tests, the reporter files are getting overridden. If I want to keep a track of tests, this is not going to help.
+
+protractor-html-screenshot-reporter provides the option of pathBuilder function property to give your own dynamic paths. We will add this in Protractor configuration file.
+
+
+
+  onPrepare: function() {
+      // Add a reporter and store screenshots to `screnshots`:
+      jasmine.getEnv().addReporter(new HtmlReporter({
+         baseDirectory: 'screenshots',
+         pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
+
+            var monthMap = {
+              "1": "Jan",
+              "2": "Feb",
+              "3": "Mar",
+              "4": "Apr",
+              "5": "May",
+              "6": "Jun",
+              "7": "Jul",
+              "8": "Aug",
+              "9": "Sep",
+              "10": "Oct",
+              "11": "Nov",
+              "12": "Dec"
+            };
+
+            var currentDate = new Date(),
+                currentHoursIn24Hour = currentDate.getHours(),
+                currentTimeInHours = currentHoursIn24Hour>12? currentHoursIn24Hour-12: currentHoursIn24Hour,
+                totalDateString = currentDate.getDate()+'-'+ monthMap[currentDate.getMonth()]+ '-'+(currentDate.getYear()+1900) +
+                                      '-'+ currentTimeInHours+'h-' + currentDate.getMinutes()+'m';
+
+            return path.join(totalDateString,capabilities.caps_.browserName, descriptions.join('-'));
+         }
+      }));
+   },
+
