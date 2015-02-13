@@ -393,7 +393,25 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+    // protractor settings
+    protractor: {
+      options: {
+          keepAlive: true,
+          configFile: "test/n2n/protractor.conf.js"
+      },
+      singlerun: {},
+      auto: {
+          keepAlive: true,
+          options: {
+              args: {
+                  seleniumPort: 4444
+              }
+          }
+      }
     }
+
+
   });
 
 
@@ -448,5 +466,8 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
-    
+
+
+    grunt.registerTask('prot', ['protractor:singlerun']);
+
 };
